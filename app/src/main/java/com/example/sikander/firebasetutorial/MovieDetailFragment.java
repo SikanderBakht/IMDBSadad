@@ -27,15 +27,11 @@ public class MovieDetailFragment extends Fragment {
     private TextView movieRating;
     private TextView movieDescription;
     MovieListItem movie;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         movie = new MovieListItem();
-
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movie_detail, container, false);
@@ -43,8 +39,7 @@ public class MovieDetailFragment extends Fragment {
         movieYear = (TextView) view.findViewById(R.id.movie_year);
         movieRating = (TextView) view.findViewById(R.id.movie_rating);
         movieDescription = (TextView) view.findViewById(R.id.movie_description);
-
-        int movieId = getArguments().getInt("movie_id");
+        long movieId = getArguments().getLong("movie_id");
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         String url ="https://api.themoviedb.org/3/movie/" + movieId + "?api_key=a779580e00d1cae522d941e0aa841f69&language=en-US";
         final String imageBaseUrl = "http://image.tmdb.org/t/p/w185/";
@@ -52,35 +47,25 @@ public class MovieDetailFragment extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        movie.setOverview(response.optString("overview"));
-                        movie.setPosterPath(imageBaseUrl + response.optString("poster_path"));
-                        movie.setVoteCount(response.optInt("vote_count"));
-                        movie.setTitle(response.optString("title"));
-                        movie.setBackdropPath(imageBaseUrl + response.optString("backdrop_path"));
-                        movie.setPopularity(response.optLong("popularity"));
-                        movie.setReleaseDate(response.optString("release_date"));
+                        movie = Utils.parseJson(response.toString(), MovieListItem.class);
                         movieName.setText(movie.getTitle());
                         movieYear.setText(movie.getReleaseDate());
-                        movieRating.setText(Long.toString(movie.getPopularity()));
+                        movieRating.setText(Double.toString(movie.getVote_average()));
                         movieDescription.setText(movie.getOverview());
-                        Toast.makeText(getActivity(),"got data", Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //mTextView.setText("That didn't work!");
-                Toast.makeText(getActivity(),"got data", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"Error", Toast.LENGTH_SHORT).show();
             }
         });
         queue.add(jsonObjectRequest);
         return view;
     }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
     }
-
     @Override
     public void onDetach() {
         super.onDetach();
