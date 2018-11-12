@@ -14,7 +14,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
-
     EditText emailForgotPassword;
     Button btnNewPass;
     FirebaseAuth firebaseAuth;
@@ -25,9 +24,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_forgot_password);
         emailForgotPassword = (EditText) findViewById(R.id.email);
         btnNewPass = (Button) findViewById(R.id.reset_pass_email_btn);
-
         firebaseAuth = FirebaseAuth.getInstance();
-
         btnNewPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

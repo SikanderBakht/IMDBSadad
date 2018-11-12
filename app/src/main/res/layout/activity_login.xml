@@ -3,6 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SignIn"
+        android:textSize="30dip"
+        android:layout_marginBottom="50dp"/>
     <android.support.design.widget.TextInputLayout
         android:id="@+id/email_validation"
         android:layout_height="wrap_content"

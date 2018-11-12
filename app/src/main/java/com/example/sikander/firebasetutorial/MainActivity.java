@@ -1,9 +1,10 @@
 package com.example.sikander.firebasetutorial;
-import android.app.ProgressDialog;
+
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +17,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -28,11 +28,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +40,12 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private FirebaseAuth.AuthStateListener  authStateListener;
     ProgressBar progressBar;
-    private ArrayList<MovieListItem> moviesList;
+    private ArrayList<MovieListItem> mostPopularMoviesList;
+    private ArrayList<MovieListItem> trendingMoviesList;
+    private ArrayList<MovieListItem> newestMoviesList;
+    private ArrayList<MovieListItem> highestRatedMoviesList;
+    MoviesListFragment moviesListFragment;
+    Bundle extra;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +56,9 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
-        moviesList = new ArrayList<MovieListItem>();
+        mostPopularMoviesList = trendingMoviesList = newestMoviesList = highestRatedMoviesList = new ArrayList<MovieListItem>();
+        moviesListFragment = new MoviesListFragment();
+        extra = new Bundle();
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser user  = firebaseAuth.getCurrentUser();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -69,27 +72,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-        RequestQueue queue = Volley.newRequestQueue(this);
-        progressBar.setVisibility(View.VISIBLE);
-        String url ="https://api.themoviedb.org/3/discover/movie?api_key=a779580e00d1cae522d941e0aa841f69&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1";
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        progressBar.setVisibility(View.GONE);
-                        moviesList = Utils.parseJsonArray(response.optJSONArray("results").toString(), new TypeToken<List<MovieListItem>>() {
-                        }.getType());
-                        mAdapter = new MoviesAdapter(MainActivity.this, moviesList);
-                        mRecyclerView.setAdapter(mAdapter);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //mTextView.setText("That didn't work!");
-                Toast.makeText(MainActivity.this,"Error", Toast.LENGTH_SHORT).show();
-            }
-        });
-        queue.add(jsonObjectRequest);
+        getNewestMovies();
+        getTrendingMoviesList();
+        getMostPopularMovies();
+        getHighestRatedMovies();
         btnDeleteUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,6 +103,110 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    public void getTrendingMoviesList() {
+        progressBar.setVisibility(View.VISIBLE);
+        String url = BuildConfig.BASE_URL + "/3/trending/movie/week?api_key=" + BuildConfig.TMDB_API_KEY;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressBar.setVisibility(View.GONE);
+                        trendingMoviesList = Utils.parseJsonArray(response.optJSONArray("results").toString(), new TypeToken<List<MovieListItem>>() {
+                        }.getType());
+                        extra.putParcelableArrayList("trending_movies_list", trendingMoviesList);
+                        moviesListFragment.setArguments(extra);
+                        if(extra.size() > 3) {
+                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                            transaction.replace(R.id.sample_content_fragment, moviesListFragment);
+                            transaction.commit();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this,"Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+        VolleyRequest.getInstance(this).addToRequestQueue(jsonObjectRequest);
+    }
+    public void getHighestRatedMovies() {
+        progressBar.setVisibility(View.VISIBLE);
+        String url = BuildConfig.BASE_URL + "/3/discover/movie?api_key=" + BuildConfig.TMDB_API_KEY + "&language=en-US&sort_by=vote_average.desc&include_adult=false&include_video=false&page=1";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressBar.setVisibility(View.GONE);
+                        highestRatedMoviesList = Utils.parseJsonArray(response.optJSONArray("results").toString(), new TypeToken<List<MovieListItem>>() {
+                        }.getType());
+                        extra.putParcelableArrayList("highest_rated_movies_list", highestRatedMoviesList);
+                        moviesListFragment.setArguments(extra);
+                        if(extra.size() > 3) {
+                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                            transaction.replace(R.id.sample_content_fragment, moviesListFragment);
+                            transaction.commit();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this,"Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+        VolleyRequest.getInstance(this).addToRequestQueue(jsonObjectRequest);
+    }
+    public void getNewestMovies() {
+        progressBar.setVisibility(View.VISIBLE);
+        String url = BuildConfig.BASE_URL + "3/discover/movie?api_key=" + BuildConfig.TMDB_API_KEY + "&language=en-US&sort_by=release_date.desc&include_adult=false&include_video=false&page=1";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressBar.setVisibility(View.GONE);
+                        newestMoviesList = Utils.parseJsonArray(response.optJSONArray("results").toString(), new TypeToken<List<MovieListItem>>() {
+                        }.getType());
+                        extra.putParcelableArrayList("newest_movies_list", newestMoviesList);
+                        moviesListFragment.setArguments(extra);
+                        if(extra.size() > 3) {
+                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                            transaction.replace(R.id.sample_content_fragment, moviesListFragment);
+                            transaction.commit();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this,"Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+        VolleyRequest.getInstance(this).addToRequestQueue(jsonObjectRequest);
+    }
+    public void getMostPopularMovies() {
+        progressBar.setVisibility(View.VISIBLE);
+        String url =BuildConfig.BASE_URL + "3/discover/movie?api_key=" + BuildConfig.TMDB_API_KEY + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressBar.setVisibility(View.GONE);
+                        mostPopularMoviesList = Utils.parseJsonArray(response.optJSONArray("results").toString(), new TypeToken<List<MovieListItem>>() {
+                        }.getType());
+                        extra.putParcelableArrayList("most_popular_movies_list", mostPopularMoviesList);
+                        moviesListFragment.setArguments(extra);
+                        if(extra.size() > 3) {
+                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                            transaction.replace(R.id.sample_content_fragment, moviesListFragment);
+                            transaction.commit();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this,"Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+        VolleyRequest.getInstance(this).addToRequestQueue(jsonObjectRequest);
+    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -125,6 +215,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            finish();
+        } else if(item.getItemId() == R.id.logout) {
+            firebaseAuth.signOut();
+            startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
         return super.onOptionsItemSelected(item);

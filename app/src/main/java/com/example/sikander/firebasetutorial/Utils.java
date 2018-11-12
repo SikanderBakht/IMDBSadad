@@ -1,7 +1,6 @@
 package com.example.sikander.firebasetutorial;
 
 import com.google.gson.GsonBuilder;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -12,7 +11,6 @@ public class Utils {
                 .create()
                 .fromJson(json, className);
     }
-
     public static <T extends Object> ArrayList<T> parseJsonArray(String data, Type typeToken) {
         return new GsonBuilder()
                 .serializeNulls()

@@ -1,8 +1,11 @@
 package com.example.sikander.firebasetutorial;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
-public class MovieListItem {
+public class MovieListItem implements Parcelable {
     private long vote_count;
     private long id;
     private boolean video;
@@ -17,6 +20,39 @@ public class MovieListItem {
     private boolean adult;
     private String overview;
     private String releaseDate;
+
+    protected MovieListItem(Parcel in) {
+        vote_count = in.readLong();
+        id = in.readLong();
+        video = in.readByte() != 0;
+        vote_average = in.readDouble();
+        title = in.readString();
+        popularity = in.readDouble();
+        poster_path = in.readString();
+        original_language = in.readString();
+        original_title = in.readString();
+        genre_ids = in.createLongArray();
+        backdrop_path = in.readString();
+        adult = in.readByte() != 0;
+        overview = in.readString();
+        releaseDate = in.readString();
+    }
+
+    public static final Creator<MovieListItem> CREATOR = new Creator<MovieListItem>() {
+        @Override
+        public MovieListItem createFromParcel(Parcel in) {
+            return new MovieListItem(in);
+        }
+
+        @Override
+        public MovieListItem[] newArray(int size) {
+            return new MovieListItem[size];
+        }
+    };
+
+    public MovieListItem() {
+
+    }
 
     public long getVote_count() {
         return vote_count;
@@ -128,5 +164,28 @@ public class MovieListItem {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(vote_count);
+        dest.writeLong(id);
+        dest.writeByte((byte) (video ? 1 : 0));
+        dest.writeDouble(vote_average);
+        dest.writeString(title);
+        dest.writeDouble(popularity);
+        dest.writeString(poster_path);
+        dest.writeString(original_language);
+        dest.writeString(original_title);
+        dest.writeLongArray(genre_ids);
+        dest.writeString(backdrop_path);
+        dest.writeByte((byte) (adult ? 1 : 0));
+        dest.writeString(overview);
+        dest.writeString(releaseDate);
     }
 }
