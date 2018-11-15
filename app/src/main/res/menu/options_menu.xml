@@ -3,16 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
-
     <item
         android:id="@+id/menu_search"
         android:icon="@drawable/ic_search"
         android:title="@string/action_search"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="ifRoom|collapseActionView" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/logout"
         android:icon="@drawable/logout_icon"
         android:title="@string/action_logout"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/sign_in"
+        android:icon="@drawable/ic_account_circle_black_24dp"
+        android:title="@string/action_signin"
         app:showAsAction="always"/>
 </menu>

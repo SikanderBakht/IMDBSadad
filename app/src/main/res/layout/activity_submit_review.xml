@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="10"
+    tools:context=".SubmitReviewActivity">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0px"
+        android:text="Your Review"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:textSize="24sp"
+        android:layout_gravity="center_horizontal"/>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/review_headline_validation"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:layout_width="match_parent">
+        <EditText
+            android:id="@+id/review_headline"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Write a headline for your review here."
+            android:textSize="14sp"/>
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/review_text_validation"
+        android:layout_height="0px"
+        android:layout_weight="7.2"
+        android:layout_width="match_parent">
+        <EditText
+            android:id="@+id/review_text"
+            android:inputType="textMultiLine"
+            android:hint="Write your review here."
+            android:lines="8"
+            android:minLines="18"
+            android:gravity="top|left"
+            android:maxLines="20"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:textSize="14sp"/>
+    </android.support.design.widget.TextInputLayout>
+    <Button
+        android:id="@+id/review_submit_btn"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="0.77"
+        android:text="Submit"/>
+</LinearLayout>

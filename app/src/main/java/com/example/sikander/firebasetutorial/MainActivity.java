@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.android.volley.Request;
@@ -35,9 +36,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     Button btnDeleteUser,btnLogout;
     FirebaseAuth firebaseAuth;
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private FirebaseAuth.AuthStateListener  authStateListener;
     ProgressBar progressBar;
     private ArrayList<MovieListItem> mostPopularMoviesList;
@@ -52,9 +50,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         btnDeleteUser =(Button) findViewById(R.id.delete_account);
         btnLogout =(Button) findViewById(R.id.logout_button);
-        mRecyclerView = (RecyclerView) findViewById(R.id.movie_recycler_view);
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
         mostPopularMoviesList = trendingMoviesList = newestMoviesList = highestRatedMoviesList = new ArrayList<MovieListItem>();
         moviesListFragment = new MoviesListFragment();
@@ -218,6 +213,8 @@ public class MainActivity extends AppCompatActivity {
             finish();
         } else if(item.getItemId() == R.id.logout) {
             firebaseAuth.signOut();
+            invalidateOptionsMenu();
+        } else if(item.getItemId() == R.id.sign_in) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
@@ -227,6 +224,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.options_menu, menu);
+        MenuItem logoutItem = menu.findItem(R.id.logout);
+        MenuItem loginItem = menu.findItem(R.id.sign_in);
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+            logoutItem.setVisible(true);
+            loginItem.setVisible(false);
+        } else {
+            logoutItem.setVisible(false);
+            loginItem.setVisible(true);
+        }
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));

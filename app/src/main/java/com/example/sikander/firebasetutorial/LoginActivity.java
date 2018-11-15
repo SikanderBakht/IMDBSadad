@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private SignInButton signInButton;
     FirebaseAuth firebaseAuth;
     GoogleApiClient mGoogleApiClient;
+    private Bundle extra;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +45,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         newPassButton = (Button) findViewById(R.id.forgot_password_button);
         emailValidation = (TextInputLayout) findViewById(R.id.email_validation);
         passwordValidation = (TextInputLayout) findViewById(R.id.password_validation);
+        if(getIntent().getExtras() != null) {
+            extra = getIntent().getExtras().getBundle("movie_details");
+        }
         firebaseAuth = FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -120,7 +124,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    if(extra != null) {
+                        Intent intent = new Intent(LoginActivity.this, SubmitReviewActivity.class);
+                        intent.putExtra("movie_details", extra);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
                     finish();
                 }
                 else{

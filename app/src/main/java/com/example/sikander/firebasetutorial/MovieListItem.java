@@ -19,7 +19,7 @@ public class MovieListItem implements Parcelable {
     private String backdrop_path;
     private boolean adult;
     private String overview;
-    private String releaseDate;
+    private String release_date;
 
     protected MovieListItem(Parcel in) {
         vote_count = in.readLong();
@@ -35,7 +35,7 @@ public class MovieListItem implements Parcelable {
         backdrop_path = in.readString();
         adult = in.readByte() != 0;
         overview = in.readString();
-        releaseDate = in.readString();
+        release_date = in.readString();
     }
 
     public static final Creator<MovieListItem> CREATOR = new Creator<MovieListItem>() {
@@ -159,11 +159,11 @@ public class MovieListItem implements Parcelable {
     }
 
     public String getReleaseDate() {
-        return releaseDate;
+        return release_date;
     }
 
     public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
+        this.release_date = releaseDate;
     }
 
     @Override
@@ -186,6 +186,6 @@ public class MovieListItem implements Parcelable {
         dest.writeString(backdrop_path);
         dest.writeByte((byte) (adult ? 1 : 0));
         dest.writeString(overview);
-        dest.writeString(releaseDate);
+        dest.writeString(release_date);
     }
 }

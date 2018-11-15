@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.reflect.TypeToken;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -31,10 +32,12 @@ public class SearchActivity extends AppCompatActivity {
     ProgressBar progressBar;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<MovieListItem> searchList;
+    FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        firebaseAuth = FirebaseAuth.getInstance();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         searchList = new ArrayList<MovieListItem>();
         mRecyclerView = (RecyclerView) findViewById(R.id.movie_recycler_view);
@@ -85,6 +88,12 @@ public class SearchActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
+        } else if(item.getItemId() == R.id.logout) {
+            firebaseAuth.signOut();
+            invalidateOptionsMenu();
+        } else if(item.getItemId() == R.id.sign_in) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -92,6 +101,15 @@ public class SearchActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.options_menu, menu);
+        MenuItem logoutItem = menu.findItem(R.id.logout);
+        MenuItem loginItem = menu.findItem(R.id.sign_in);
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+            logoutItem.setVisible(true);
+            loginItem.setVisible(false);
+        } else {
+            logoutItem.setVisible(false);
+            loginItem.setVisible(true);
+        }
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
