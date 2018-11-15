@@ -1,4 +1,4 @@
-package com.example.sikander.firebasetutorial;
+package com.example.sikander.firebasetutorial.Activities;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -20,6 +20,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.sikander.firebasetutorial.Models.MovieListItem;
+import com.example.sikander.firebasetutorial.Adapters.MoviesAdapter;
+import com.example.sikander.firebasetutorial.R;
+import com.example.sikander.firebasetutorial.Utils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.reflect.TypeToken;
 import org.json.JSONObject;

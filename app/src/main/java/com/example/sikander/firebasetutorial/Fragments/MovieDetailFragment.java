@@ -1,13 +1,11 @@
-package com.example.sikander.firebasetutorial;
+package com.example.sikander.firebasetutorial.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +26,18 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.sikander.firebasetutorial.Activities.LoginActivity;
+import com.example.sikander.firebasetutorial.Activities.SubmitReviewActivity;
+import com.example.sikander.firebasetutorial.Activities.VideoPlayerActivity;
+import com.example.sikander.firebasetutorial.Activities.ViewAllReviewsActivity;
+import com.example.sikander.firebasetutorial.BuildConfig;
+import com.example.sikander.firebasetutorial.GlideApp;
+import com.example.sikander.firebasetutorial.Models.MovieListItem;
+import com.example.sikander.firebasetutorial.Models.MovieReview;
+import com.example.sikander.firebasetutorial.MovieTrailer;
+import com.example.sikander.firebasetutorial.R;
+import com.example.sikander.firebasetutorial.Utils;
+import com.example.sikander.firebasetutorial.VolleyRequest;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,14 +47,12 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.sikander.firebasetutorial.MovieDetailActivity.BASE_BACKDROP_PATH;
+import static com.example.sikander.firebasetutorial.Activities.MovieDetailActivity.BASE_BACKDROP_PATH;
 
 public class MovieDetailFragment extends Fragment {
     private TextView movieName;

@@ -1,9 +1,8 @@
-package com.example.sikander.firebasetutorial;
+package com.example.sikander.firebasetutorial.Models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 
 public class MovieListItem implements Parcelable {
     private long vote_count;

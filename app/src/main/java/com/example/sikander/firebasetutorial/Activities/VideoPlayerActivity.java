@@ -1,9 +1,12 @@
-package com.example.sikander.firebasetutorial;
+package com.example.sikander.firebasetutorial.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.sikander.firebasetutorial.Api;
+import com.example.sikander.firebasetutorial.MovieTrailer;
+import com.example.sikander.firebasetutorial.R;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;

@@ -1,29 +1,23 @@
-package com.example.sikander.firebasetutorial;
+package com.example.sikander.firebasetutorial.Activities;
 
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.example.sikander.firebasetutorial.GlideApp;
+import com.example.sikander.firebasetutorial.Fragments.MovieDetailFragment;
+import com.example.sikander.firebasetutorial.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MovieDetailActivity extends AppCompatActivity {

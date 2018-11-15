@@ -1,4 +1,4 @@
-package com.example.sikander.firebasetutorial;
+package com.example.sikander.firebasetutorial.Models;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +8,7 @@ public class MovieReview {
     public Long movieid;
     public String reviewheadline;
     public String reviewtext;
-    MovieReview() {
+    public MovieReview() {
 
     }
     public MovieReview(String uid, Long movieid, String reviewheadline, String reviewtext) {

@@ -2,7 +2,7 @@ package com.example.sikander.firebasetutorial;
 
 public class Api {
     public static final String BASE_POSTER_PATH = "http://image.tmdb.org/t/p/w342";
-    public static final String API_KEY = "AIzaSyDAqx8rwPkFAwifO7WyVD8et12ROxCD0QI";
+    public static final String API_KEY = "null";
     public static final String BASR_BACKDROP_PATH = "http://image.tmdb.org/t/p/w780";
     static final String YOUTUBE_VIDEO_URL = "http://www.youtube.com/watch?v=%1$s";
     static final String YOUTUBE_THUMBNAIL_URL = "http://img.youtube.com/vi/%1$s/0.jpg";

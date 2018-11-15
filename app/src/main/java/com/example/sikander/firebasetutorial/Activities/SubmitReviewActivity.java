@@ -1,4 +1,4 @@
-package com.example.sikander.firebasetutorial;
+package com.example.sikander.firebasetutorial.Activities;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.sikander.firebasetutorial.Models.MovieReview;
+import com.example.sikander.firebasetutorial.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;

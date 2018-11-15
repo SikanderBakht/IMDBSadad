@@ -1,4 +1,4 @@
-package com.example.sikander.firebasetutorial;
+package com.example.sikander.firebasetutorial.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.sikander.firebasetutorial.Activities.MovieDetailActivity;
+import com.example.sikander.firebasetutorial.GlideApp;
+import com.example.sikander.firebasetutorial.Models.MovieListItem;
+import com.example.sikander.firebasetutorial.R;
+
 import java.util.ArrayList;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
