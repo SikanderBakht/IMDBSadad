@@ -152,7 +152,6 @@ public class MovieDetailFragment extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        //progressBar.setVisibility(View.GONE);
                         movieTrailers = Utils.parseJsonArray(response.optJSONArray("results").toString(), new TypeToken<List<MovieTrailer>>() {
                         }.getType());
                         showTrailers(movieTrailers);

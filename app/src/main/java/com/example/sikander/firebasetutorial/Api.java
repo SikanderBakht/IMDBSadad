@@ -10,11 +10,9 @@ public class Api {
     private Api() {
         // hide implicit public constructor
     }
-
     public static String getPosterPath(String posterPath) {
         return BASE_POSTER_PATH + posterPath;
     }
-
     public static String getBackdropPath(String backdropPath) {
         return BASR_BACKDROP_PATH + backdropPath;
     }

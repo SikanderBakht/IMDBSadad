@@ -14,7 +14,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-
 import com.example.sikander.firebasetutorial.GlideApp;
 import com.example.sikander.firebasetutorial.Fragments.MovieDetailFragment;
 import com.example.sikander.firebasetutorial.R;

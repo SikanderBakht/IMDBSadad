@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.sikander.firebasetutorial.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -33,7 +32,6 @@ public class RegisterActivity extends AppCompatActivity {
         emailValidation = (TextInputLayout) findViewById(R.id.email_validation);
         passwordValidation = (TextInputLayout) findViewById(R.id.password_validation);
         firebaseAuth = FirebaseAuth.getInstance();
-
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,9 +1,7 @@
 package com.example.sikander.firebasetutorial.Activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
-
 import com.example.sikander.firebasetutorial.Api;
 import com.example.sikander.firebasetutorial.MovieTrailer;
 import com.example.sikander.firebasetutorial.R;
@@ -25,13 +23,11 @@ public class VideoPlayerActivity extends YouTubeBaseActivity implements YouTubeP
         trailerTitile = (TextView) findViewById(R.id.trailer_title);
         youTubeView.initialize(Api.API_KEY, this);
     }
-
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
         trailerTitile.setText(trailer.getName());
         youTubePlayer.loadVideo(trailer.getKey());
     }
-
     @Override
     public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
 

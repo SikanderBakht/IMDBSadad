@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.sikander.firebasetutorial.Activities.MovieDetailActivity;
 import com.example.sikander.firebasetutorial.GlideApp;
 import com.example.sikander.firebasetutorial.Models.MovieListItem;

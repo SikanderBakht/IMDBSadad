@@ -9,23 +9,14 @@ import com.example.sikander.firebasetutorial.Models.MovieReview;
 
 public class MovieReviewViewHolder extends RecyclerView.ViewHolder {
     public TextView titleView;
-    /*public TextView authorView;
-    public ImageView starView;
-    public TextView numStarsView;*/
     public TextView bodyView;
     public MovieReviewViewHolder(@NonNull View itemView) {
         super(itemView);
         titleView = itemView.findViewById(R.id.review_heading_view);
-        /*authorView = itemView.findViewById(R.id.postAuthor);
-        starView = itemView.findViewById(R.id.star);
-        numStarsView = itemView.findViewById(R.id.postNumStars);*/
         bodyView = itemView.findViewById(R.id.review_description_view);
     }
-    public void bindToPost(MovieReview movieReview/*, View.OnClickListener starClickListener*/) {
+    public void bindToPost(MovieReview movieReview) {
         titleView.setText(movieReview.reviewheadline);
-        /*authorView.setText(post.author);
-        numStarsView.setText(String.valueOf(post.starCount));*/
         bodyView.setText(movieReview.reviewtext);
-        //starView.setOnClickListener(starClickListener);
     }
 }

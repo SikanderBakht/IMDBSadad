@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-
 import com.example.sikander.firebasetutorial.Models.MovieReview;
 import com.example.sikander.firebasetutorial.MovieReviewViewHolder;
 import com.example.sikander.firebasetutorial.R;
@@ -69,42 +68,8 @@ public class ViewAllReviewsActivity extends AppCompatActivity {
             }
             @Override
             protected void onBindViewHolder(MovieReviewViewHolder viewHolder, int position, final MovieReview model) {
-                /*final DatabaseReference postRef = getRef(position);
-
-                final String postKey = postRef.getKey();
-                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Launch PostDetailActivity
-                        Intent intent = new Intent(getActivity(), PostDetailActivity.class);
-                        intent.putExtra(PostDetailActivity.EXTRA_POST_KEY, postKey);
-                        startActivity(intent);
-                    }
-                });
-
-                // Determine if the current user has liked this post and set UI accordingly
-                if (model.stars.containsKey(getUid())) {
-                    viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_24);
-                } else {
-                    viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_outline_24);
-                }*/
-
-                // Bind Post to ViewHolder, setting OnClickListener for the star button
                 progressBar.setVisibility(View.GONE);
-                viewHolder.bindToPost(model);/*, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View starView) {
-                        // Need to write to both places the post is stored
-                        DatabaseReference globalPostRef = mDatabase.child("posts").child(postRef.getKey());
-                        DatabaseReference userPostRef = mDatabase.child("user-posts").child(model.uid).child(postRef.getKey());
-
-                        // Run two transactions
-                        onStarClicked(globalPostRef);
-                        onStarClicked(userPostRef);
-                    }
-                });*/
-
-                //mRecyclerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                viewHolder.bindToPost(model);
             }
         };
         mRecyclerView.setAdapter(mAdapter);
@@ -117,7 +82,6 @@ public class ViewAllReviewsActivity extends AppCompatActivity {
             }
         });
     }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -125,7 +89,6 @@ public class ViewAllReviewsActivity extends AppCompatActivity {
             mAdapter.startListening();
         }
     }
-
     @Override
     public void onStop() {
         super.onStop();
@@ -137,7 +100,6 @@ public class ViewAllReviewsActivity extends AppCompatActivity {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
     public Query getQuery(DatabaseReference databaseReference) {
-        // All my posts
         return databaseReference.child("movie-reviews").child(String.valueOf(movieId));
     }
     @Override

@@ -14,7 +14,6 @@ import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
 public class SlidingTabLayout extends HorizontalScrollView {
-
     public interface TabColorizer {
         int getIndicatorColor(int position);
         int getDividerColor(int position);
